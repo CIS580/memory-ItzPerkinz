@@ -10,6 +10,21 @@ var game = new Game(canvas, update, render);
 // We have 9 pairs of possible cards that are about 212px square
 var cards = [0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8];
 var board = [];
+while(cards.length>0)
+{
+  var index = Math.floor(Math.random()*cards.length-1);
+  board.push({card: cards[index], flip: false});
+  cards.splice(index, 1);
+}
+
+// board[shuffled 0-8] now
+/*
+    0 0 1 1 2 2
+    3 3 4 4 5 5
+    6 6 7 7 8 8
+*/
+
+
 
 // TODO: Place the cards on the board in random order
 
@@ -55,4 +70,28 @@ function render(elapsedTime, ctx) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // TODO: Render the board
+  for (var y = 0; y < 3; y++) {
+    for (var x = 0; x < 7; x++) {
+      var i = y*6 + x;
+      var card = board[i];
+      if (card.flip)
+      {
+        //render animal
+        ctx.drawImage(image,
+          //source rect
+          640 / card.card, 0, 212, 212
+          //dest rect
+          x*165+3, y*165+3, 160, 160
+         )
+      }
+      else
+      {
+        //draw the back of the card
+      }
+      ctx.fillStyle = "#3333ff";
+      // 1 pixel = 212 pixels
+      // 214 = padding of 2 pixels
+      ctx.fillRect(x*165+3, y*165+3, 160, 160);
+    }
+  }
 }
